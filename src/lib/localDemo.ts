@@ -9,7 +9,7 @@ type DemoData = {
   reservations: Reservation[];
 };
 
-export const demoAdminEmail = "sunsetsports@admin.com";
+export const demoAdminEmail = "joaoamparado0605@gmail.com";
 export const demoAdminPassword = "Sunset123";
 
 const defaultSlotTimes = [
@@ -95,7 +95,7 @@ export function onDemoAuthChange(callback: () => void) {
 }
 
 export async function demoSignIn(email: string, password: string) {
-  const acceptedEmails = [demoAdminEmail, "admin@arenuhub.com", "admin@arenahub.com"];
+  const acceptedEmails = [demoAdminEmail, "sunsetsports@admin.com", "admin@arenuhub.com", "admin@arenahub.com"];
   if (!acceptedEmails.includes(email.trim().toLowerCase()) || password !== demoAdminPassword) {
     throw new Error("E-mail ou senha inválidos.");
   }

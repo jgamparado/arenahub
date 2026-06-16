@@ -32,7 +32,7 @@ const defaultSlots = [
   ["20:00", "21:00"],
 ];
 
-const adminEmail = "sunsetsports@admin.com";
+const adminEmail = "joaoamparado0605@gmail.com";
 const adminPassword = "Sunset123";
 
 await ensureAdminUser(adminEmail, adminPassword);

@@ -50,7 +50,7 @@ npm run seed
 
 Credenciais do gestor:
 
-- E-mail: `sunsetsports@admin.com`
+- E-mail: `joaoamparado0605@gmail.com`
 - Senha: `Sunset123`
 
 ## Rodar localmente
@@ -63,7 +63,7 @@ Sem `.env.local`, o app entra em modo demo local automaticamente. Nesse modo, as
 
 Login demo local:
 
-- E-mail: `sunsetsports@admin.com`
+- E-mail: `joaoamparado0605@gmail.com`
 - Senha: `Sunset123`
 
 Rotas principais:
