@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { localDemo } from "../lib/localDemo";
-import { isLocalDemoEnabled, supabase } from "../lib/supabase";
+import { assertSupabaseConfigured, isLocalDemoEnabled, supabase } from "../lib/supabase";
 import { toDateKey } from "../lib/format";
 import type { Reservation, ReservationStatus } from "../lib/types";
 
@@ -18,6 +18,7 @@ export function useReservationsForDay(courtId?: string, date?: string) {
     enabled: Boolean(courtId && date),
     queryFn: async () => {
       if (isLocalDemoEnabled) return localDemo.reservationsForDay(courtId!, date!);
+      assertSupabaseConfigured();
 
       const { data, error } = await supabase
         .from("reservations")
@@ -37,6 +38,7 @@ export function useTodayReservations() {
     queryKey: ["reservations", "today", today],
     queryFn: async () => {
       if (isLocalDemoEnabled) return localDemo.todayReservations(today);
+      assertSupabaseConfigured();
 
       const { data, error } = await supabase
         .from("reservations")
@@ -60,6 +62,7 @@ export function useAllReservations(filters: {
     queryKey: ["reservations", "all", filters],
     queryFn: async () => {
       if (isLocalDemoEnabled) return localDemo.allReservations(filters);
+      assertSupabaseConfigured();
 
       const from = (filters.page - 1) * 20;
       const to = from + 19;
@@ -86,6 +89,7 @@ export function useCreateReservation() {
   return useMutation({
     mutationFn: async (payload: CreateReservationPayload) => {
       if (isLocalDemoEnabled) return localDemo.createReservation(payload);
+      assertSupabaseConfigured();
 
       const { data, error } = await supabase
         .from("reservations")
@@ -108,6 +112,7 @@ export function useCancelReservation() {
   return useMutation({
     mutationFn: async (reservationId: string) => {
       if (isLocalDemoEnabled) return localDemo.cancelReservation(reservationId);
+      assertSupabaseConfigured();
 
       const { data, error } = await supabase
         .from("reservations")

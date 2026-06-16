@@ -135,6 +135,14 @@ export default function HomePage() {
                       <Skeleton key={item} className="h-24" />
                     ))}
                   </div>
+                ) : courts.isError ? (
+                  <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">
+                    Não foi possível carregar as quadras. Verifique as variáveis do Supabase na Vercel e faça um novo deploy.
+                  </div>
+                ) : (courts.data ?? []).length === 0 ? (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
+                    Ainda não há quadras cadastradas no Supabase. Popule o banco com o seed para liberar os horários.
+                  </div>
                 ) : (
                   <div className="grid gap-3">
                     {(courts.data ?? []).map((court) => (

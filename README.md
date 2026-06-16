@@ -101,6 +101,12 @@ Para checar a conexão Supabase localmente, crie `.env.local` e rode:
 npm run check:supabase
 ```
 
+Se o usuário gestor já estiver confirmado no Supabase Auth, também é possível popular quadras e horários usando o login comum:
+
+```bash
+npm run seed:login
+```
+
 ## Observações de banco
 
 O arquivo `supabase/schema.sql` cria as tabelas `courts`, `time_slots` e `reservations`, habilita RLS e adiciona um índice único parcial para impedir duas reservas `confirmed` no mesmo `court_id + date + slot_id`.

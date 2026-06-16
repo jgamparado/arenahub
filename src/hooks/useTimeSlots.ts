@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { localDemo } from "../lib/localDemo";
-import { isLocalDemoEnabled, supabase } from "../lib/supabase";
+import { assertSupabaseConfigured, isLocalDemoEnabled, supabase } from "../lib/supabase";
 import type { TimeSlot } from "../lib/types";
 
 export function useTimeSlots(courtId?: string, weekday?: number) {
@@ -9,6 +9,7 @@ export function useTimeSlots(courtId?: string, weekday?: number) {
     enabled: Boolean(courtId),
     queryFn: async () => {
       if (isLocalDemoEnabled) return localDemo.listTimeSlots(courtId!, weekday);
+      assertSupabaseConfigured();
 
       let query = supabase
         .from("time_slots")
@@ -30,6 +31,7 @@ export function useCreateTimeSlot() {
   return useMutation({
     mutationFn: async (payload: Omit<TimeSlot, "id">) => {
       if (isLocalDemoEnabled) return localDemo.createTimeSlot(payload);
+      assertSupabaseConfigured();
 
       const { data, error } = await supabase.from("time_slots").insert(payload).select("*").single();
       if (error) throw error;
@@ -47,6 +49,7 @@ export function useDeleteTimeSlot() {
   return useMutation({
     mutationFn: async (payload: { id: string; court_id: string }) => {
       if (isLocalDemoEnabled) return localDemo.deleteTimeSlot(payload.id);
+      assertSupabaseConfigured();
 
       const { error } = await supabase.from("time_slots").delete().eq("id", payload.id);
       if (error) throw error;
