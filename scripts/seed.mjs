@@ -32,16 +32,10 @@ const defaultSlots = [
   ["20:00", "21:00"],
 ];
 
-const { error: userError } = await supabase.auth.admin.createUser({
-  email: "sunsetsports@admin.com",
-  password: "Sunset123",
-  email_confirm: true,
-});
+const adminEmail = "sunsetsports@admin.com";
+const adminPassword = "Sunset123";
 
-if (userError && !userError.message.toLowerCase().includes("already")) {
-  console.error("Erro ao criar gestor:", userError.message);
-  process.exit(1);
-}
+await ensureAdminUser(adminEmail, adminPassword);
 
 for (const court of courts) {
   const { data: existing } = await supabase.from("courts").select("*").eq("name", court.name).maybeSingle();
@@ -76,4 +70,40 @@ for (const court of courts) {
   }
 }
 
-console.log("Seed concluido: quadras, horarios e gestor sunsetsports@admin.com criados.");
+console.log(`Seed concluido: quadras, horarios e gestor ${adminEmail} criados/atualizados.`);
+
+async function ensureAdminUser(email, password) {
+  const { data: usersData, error: listError } = await supabase.auth.admin.listUsers();
+
+  if (listError) {
+    console.error("Erro ao verificar gestor:", listError.message);
+    process.exit(1);
+  }
+
+  const existingUser = usersData.users.find((user) => user.email?.toLowerCase() === email.toLowerCase());
+
+  if (existingUser) {
+    const { error } = await supabase.auth.admin.updateUserById(existingUser.id, {
+      password,
+      email_confirm: true,
+    });
+
+    if (error) {
+      console.error("Erro ao atualizar gestor:", error.message);
+      process.exit(1);
+    }
+
+    return;
+  }
+
+  const { error } = await supabase.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+  });
+
+  if (error) {
+    console.error("Erro ao criar gestor:", error.message);
+    process.exit(1);
+  }
+}
