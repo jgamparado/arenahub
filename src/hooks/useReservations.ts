@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { localDemo } from "../lib/localDemo";
-import { isSupabaseConfigured, supabase } from "../lib/supabase";
+import { isLocalDemoEnabled, supabase } from "../lib/supabase";
 import { toDateKey } from "../lib/format";
 import type { Reservation, ReservationStatus } from "../lib/types";
 
@@ -17,7 +17,7 @@ export function useReservationsForDay(courtId?: string, date?: string) {
     queryKey: ["reservations", "day", courtId, date],
     enabled: Boolean(courtId && date),
     queryFn: async () => {
-      if (!isSupabaseConfigured) return localDemo.reservationsForDay(courtId!, date!);
+      if (isLocalDemoEnabled) return localDemo.reservationsForDay(courtId!, date!);
 
       const { data, error } = await supabase
         .from("reservations")
@@ -36,7 +36,7 @@ export function useTodayReservations() {
   return useQuery({
     queryKey: ["reservations", "today", today],
     queryFn: async () => {
-      if (!isSupabaseConfigured) return localDemo.todayReservations(today);
+      if (isLocalDemoEnabled) return localDemo.todayReservations(today);
 
       const { data, error } = await supabase
         .from("reservations")
@@ -59,7 +59,7 @@ export function useAllReservations(filters: {
   return useQuery({
     queryKey: ["reservations", "all", filters],
     queryFn: async () => {
-      if (!isSupabaseConfigured) return localDemo.allReservations(filters);
+      if (isLocalDemoEnabled) return localDemo.allReservations(filters);
 
       const from = (filters.page - 1) * 20;
       const to = from + 19;
@@ -85,7 +85,7 @@ export function useCreateReservation() {
 
   return useMutation({
     mutationFn: async (payload: CreateReservationPayload) => {
-      if (!isSupabaseConfigured) return localDemo.createReservation(payload);
+      if (isLocalDemoEnabled) return localDemo.createReservation(payload);
 
       const { data, error } = await supabase
         .from("reservations")
@@ -107,7 +107,7 @@ export function useCancelReservation() {
 
   return useMutation({
     mutationFn: async (reservationId: string) => {
-      if (!isSupabaseConfigured) return localDemo.cancelReservation(reservationId);
+      if (isLocalDemoEnabled) return localDemo.cancelReservation(reservationId);
 
       const { data, error } = await supabase
         .from("reservations")

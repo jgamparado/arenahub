@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { AppLogo } from "../AppLogo";
 import { Button } from "../ui/button";
 import { demoSignOut } from "../../lib/localDemo";
-import { isSupabaseConfigured, supabase } from "../../lib/supabase";
+import { isLocalDemoEnabled, supabase } from "../../lib/supabase";
 import { cn } from "../../lib/utils";
 
 const dashboardLinks = [
@@ -26,10 +26,10 @@ export function DashboardLayout({
   const navigate = useNavigate();
 
   async function signOut() {
-    if (isSupabaseConfigured) {
-      await supabase.auth.signOut();
-    } else {
+    if (isLocalDemoEnabled) {
       await demoSignOut();
+    } else {
+      await supabase.auth.signOut();
     }
     toast.success("Sessão encerrada.");
     navigate("/login");

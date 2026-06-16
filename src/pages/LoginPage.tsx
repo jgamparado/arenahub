@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Input } from "../components/ui/input";
 import { useAuth } from "../hooks/useAuth";
 import { demoAdminEmail, demoAdminPassword, demoSignIn } from "../lib/localDemo";
-import { isSupabaseConfigured, supabase } from "../lib/supabase";
+import { isLocalDemoEnabled, supabase } from "../lib/supabase";
 
 export default function LoginPage() {
   const [email, setEmail] = useState(demoAdminEmail);
@@ -25,11 +25,11 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      if (isSupabaseConfigured) {
+      if (isLocalDemoEnabled) {
+        await demoSignIn(email, password);
+      } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-      } else {
-        await demoSignIn(email, password);
       }
 
       toast.success("Bem-vindo ao painel.");

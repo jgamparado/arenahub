@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getDemoSession, onDemoAuthChange } from "../lib/localDemo";
-import { isSupabaseConfigured, supabase } from "../lib/supabase";
+import { isLocalDemoEnabled, supabase } from "../lib/supabase";
 
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isSupabaseConfigured) {
+    if (isLocalDemoEnabled) {
       setSession(getDemoSession());
       setLoading(false);
       return onDemoAuthChange(() => setSession(getDemoSession()));

@@ -73,6 +73,26 @@ Rotas principais:
 - `/dashboard` - reservas do gestor
 - `/dashboard/courts` - gestão de quadras e horários
 
+## Deploy na Vercel
+
+O projeto já inclui `vercel.json` com:
+
+- build command: `npm run build`
+- output: `dist`
+- fallback de SPA para rotas como `/login` e `/dashboard`
+- cache longo para arquivos em `/assets`
+
+No painel da Vercel, configure as variáveis de ambiente em Project Settings > Environment Variables:
+
+```bash
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_ANON_KEY=sua-chave-anon-publica
+```
+
+Não adicione `SUPABASE_SERVICE_ROLE_KEY` na Vercel para este frontend. Essa chave é apenas para scripts administrativos locais, como `npm run seed`.
+
+Depois de configurar as variáveis, faça redeploy. Em produção, o modo demo local fica desativado; se as variáveis do Supabase não estiverem presentes, o login real não será liberado.
+
 ## Observações de banco
 
 O arquivo `supabase/schema.sql` cria as tabelas `courts`, `time_slots` e `reservations`, habilita RLS e adiciona um índice único parcial para impedir duas reservas `confirmed` no mesmo `court_id + date + slot_id`.
