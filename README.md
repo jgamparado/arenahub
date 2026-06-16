@@ -89,9 +89,17 @@ VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_ANON_KEY=sua-chave-anon-publica
 ```
 
+O app também aceita `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` caso uma integração tenha criado variáveis com esse padrão.
+
 Não adicione `SUPABASE_SERVICE_ROLE_KEY` na Vercel para este frontend. Essa chave é apenas para scripts administrativos locais, como `npm run seed`.
 
 Depois de configurar as variáveis, faça redeploy. Em produção, o modo demo local fica desativado; se as variáveis do Supabase não estiverem presentes, o login real não será liberado.
+
+Para checar a conexão Supabase localmente, crie `.env.local` e rode:
+
+```bash
+npm run check:supabase
+```
 
 ## Observações de banco
 
