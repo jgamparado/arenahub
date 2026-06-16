@@ -34,6 +34,8 @@ export default function HomePage() {
   const createReservation = useCreateReservation();
 
   const occupiedSlots = new Set((reservations.data ?? []).map((reservation) => reservation.slot_id));
+  const courtsErrorMessage =
+    courts.error instanceof Error ? courts.error.message : "Erro desconhecido ao consultar quadras.";
 
   function resetFlow() {
     setStep(0);
@@ -136,8 +138,9 @@ export default function HomePage() {
                     ))}
                   </div>
                 ) : courts.isError ? (
-                  <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">
-                    Não foi possível carregar as quadras. Verifique as variáveis do Supabase na Vercel e faça um novo deploy.
+                  <div className="space-y-2 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-800">
+                    <p>Não foi possível carregar as quadras.</p>
+                    <p className="font-medium">{courtsErrorMessage}</p>
                   </div>
                 ) : (courts.data ?? []).length === 0 ? (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-900">
