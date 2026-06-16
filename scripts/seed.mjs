@@ -33,8 +33,8 @@ const defaultSlots = [
 ];
 
 const { error: userError } = await supabase.auth.admin.createUser({
-  email: "admin@arenuhub.com",
-  password: "admin123",
+  email: "sunsetsports@admin.com",
+  password: "Sunset123",
   email_confirm: true,
 });
 
@@ -76,4 +76,4 @@ for (const court of courts) {
   }
 }
 
-console.log("Seed concluido: quadras, horarios e gestor admin@arenuhub.com criados.");
+console.log("Seed concluido: quadras, horarios e gestor sunsetsports@admin.com criados.");

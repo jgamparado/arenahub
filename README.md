@@ -50,8 +50,8 @@ npm run seed
 
 Credenciais do gestor:
 
-- E-mail: `admin@arenuhub.com`
-- Senha: `admin123`
+- E-mail: `sunsetsports@admin.com`
+- Senha: `Sunset123`
 
 ## Rodar localmente
 
@@ -63,8 +63,8 @@ Sem `.env.local`, o app entra em modo demo local automaticamente. Nesse modo, as
 
 Login demo local:
 
-- E-mail: `admin@arenuhub.com`
-- Senha: `admin123`
+- E-mail: `sunsetsports@admin.com`
+- Senha: `Sunset123`
 
 Rotas principais:
 
