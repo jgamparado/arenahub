@@ -35,8 +35,9 @@ export default function LoginPage() {
       toast.success("Bem-vindo ao painel.");
       const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname ?? "/dashboard";
       navigate(from, { replace: true });
-    } catch {
-      toast.error("E-mail ou senha inválidos.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      toast.error(message.toLowerCase().includes("email not confirmed") ? "Confirme este usuário no Supabase Auth antes de entrar." : "E-mail ou senha inválidos.");
     } finally {
       setLoading(false);
     }
